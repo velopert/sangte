@@ -1,7 +1,7 @@
 import { sangte, SangteProvider, useSangteValue } from 'sangte'
 
-const numberState = sangte(0, undefined, { key: 'number' })
-const textState = sangte('hello world', undefined, { key: 'text' })
+const numberState = sangte(0, { key: 'number' })
+const textState = sangte('hello world', { key: 'text' })
 
 function Values() {
   const number = useSangteValue(numberState)
