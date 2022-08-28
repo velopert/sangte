@@ -1,4 +1,4 @@
-name: Workflow for Codecov example-typescript
+name: Test
 on: [push, pull_request]
 jobs:
   run:
@@ -13,6 +13,6 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Run tests and collect coverage
-        run: yarn coverage
+        run: yarn test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
