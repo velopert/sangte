@@ -18,13 +18,69 @@ Or if you're using yarn:
 yarn add sangte
 ```
 
-## Why sangte over context?
+## Why sangte?
 
 - Less boilerplate
 - Rerender only when the state you're using is updated
-
-## Why sangte over Redux?
-
 - Easy to use
 - Allows multiple providers
-- Creates hooks that you can easily pick the desired state or action functions.
+- TypeScript support
+
+## Usage
+
+```tsx
+import { sangte, useResetSangte, useSangteActions, useSangteValue } from 'sangte'
+
+const appState = sangte(
+  {
+    text: '',
+    count: 0,
+  },
+  (prev) => ({
+    change(text: string) {
+      prev.text = text
+    },
+    increase() {
+      prev.count += 1
+    },
+    decrease() {
+      return {
+        ...prev,
+        count: prev.count - 1,
+      }
+    },
+  })
+)
+
+function Input() {
+  const text = useSangteValue(appState, (state) => state.text)
+  const { change } = useSangteActions(appState)
+  return <input value={text} onChange={(e) => change(e.target.value)} />
+}
+
+function Counter() {
+  const count = useSangteValue(appState, (state) => state.count)
+  const actions = useSangteActions(appState)
+  return (
+    <div>
+      <h1>{count}</h1>
+      <button onClick={actions.increase}>+1</button>
+      <button onClick={actions.decrease}>-1</button>
+    </div>
+  )
+}
+
+function App() {
+  const reset = useResetSangte(appState)
+
+  return (
+    <div>
+      <Counter />
+      <Input />
+      <button onClick={reset}>Reset</button>
+    </div>
+  )
+}
+
+export default App
+```
