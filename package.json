@@ -6,35 +6,35 @@
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "dev": "vite",
     "build": "rollup -c",
-    "preview": "vite preview",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "jest"  
   },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
     "immer": "^9.0.15",
     "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@babel/plugin-transform-react-jsx": "^7.18.10",
+    "@babel/plugin-transform-typescript": "^7.18.12",
+    "@babel/preset-env": "^7.18.10",
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/use-sync-external-store": "^0.0.3",
-    "@vitejs/plugin-react": "^2.0.1",
-    "@vitest/coverage-istanbul": "^0.22.1",
     "esbuild": "^0.15.5",
+    "jest": "^29.0.1",
+    "jest-environment-jsdom": "^29.0.1",
     "jsdom": "^20.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^2.75.7",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-esbuild": "^4.9.1",
-    "typescript": "^4.6.3",
-    "vite": "^3.0.9",
-    "vitest": "^0.22.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.6.3"
   },
   "peerDependencies": {
     "react": ">=16.8"

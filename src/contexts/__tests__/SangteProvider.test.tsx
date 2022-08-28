@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { SangteProvider } from '../SangteProvider'
 import { sangte } from '../../lib'
 import { useSangte, useSangteValue } from '../../hooks'
+import React from 'react'
 
 describe('SangteProvider', () => {
   it('should render children', () => {

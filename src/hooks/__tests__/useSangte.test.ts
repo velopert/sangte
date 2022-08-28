@@ -1,4 +1,3 @@
-import { it, describe, expect } from 'vitest'
 import { sangte } from '../../lib'
 import { useSangte } from '..'
 import { renderHook, act } from '@testing-library/react-hooks'
@@ -8,7 +7,7 @@ describe('useSangte', () => {
     const counterState = sangte(0)
     const { result } = renderHook(() => useSangte(counterState))
     expect(result.current[0]).toBe(0)
-    expect(result.current[1]).toBeTypeOf('function')
+    expect(typeof result.current[1]).toBe('function')
   })
   it('can update the state', () => {
     const counterState = sangte(0)

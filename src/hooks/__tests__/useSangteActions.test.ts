@@ -1,5 +1,4 @@
 import { renderHook, act } from '@testing-library/react-hooks'
-import { describe, expect, it } from 'vitest'
 import { sangte } from '../../lib'
 import { useSangteActions } from '../useSangteActions'
 import { useSangteValue } from '../useSangteValue'
@@ -15,7 +14,7 @@ describe('useSangteActions', () => {
       },
     }))
     const { result } = renderHook(() => useSangteActions(state))
-    expect(result.current.decrease).toBeTypeOf('function')
+    expect(typeof result.current.decrease).toBe('function')
   })
   it('updates value according to actions', () => {
     const state = sangte(0, (prev) => ({

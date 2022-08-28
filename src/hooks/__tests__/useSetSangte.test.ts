@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { describe, expect, it } from 'vitest'
 import { sangte } from '../../lib'
 import { useSangteValue } from '../useSangteValue'
 import { useSetSangte } from '../useSetSangte'

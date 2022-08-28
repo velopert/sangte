@@ -1,4 +1,3 @@
-import { describe, expect, it, vi } from 'vitest'
 import { sangte } from '../sangte'
 
 describe('sangte', () => {
@@ -20,8 +19,8 @@ describe('sangte', () => {
   it('calls subscriptions when updated', () => {
     const create = sangte({ count: 0 })
     const store = create()
-    const callback = vi.fn()
-    const callback2 = vi.fn()
+    const callback = jest.fn()
+    const callback2 = jest.fn()
     store.subscribe(callback)
     store.subscribe(callback2)
     store.setState({ count: 1 })
@@ -32,7 +31,7 @@ describe('sangte', () => {
   it('unsubcribes properly', () => {
     const create = sangte({ count: 0 })
     const store = create()
-    const callback = vi.fn()
+    const callback = jest.fn()
     const unsubcribe = store.subscribe(callback)
     store.setState({ count: 1 })
     expect(callback).toBeCalled()
@@ -55,7 +54,7 @@ describe('sangte', () => {
       },
     }))
     const store = create()
-    const callback = vi.fn()
+    const callback = jest.fn()
 
     store.subscribe(callback)
 
