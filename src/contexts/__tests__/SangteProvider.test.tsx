@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { SangteProvider } from '../SangteProvider'
 import { sangte } from '../../lib'
 import { useSangte, useSangteValue } from '../../hooks'
-import React from 'react'
 
 describe('SangteProvider', () => {
   it('should render children', () => {
@@ -22,8 +21,8 @@ describe('SangteProvider', () => {
 
     render(
       <SangteProvider
-        initialize={(initializer) => {
-          initializer.set(state, 10)
+        initialize={({ set }) => {
+          set(state, 10)
         }}
       >
         <Child />
@@ -50,8 +49,8 @@ describe('SangteProvider', () => {
       <SangteProvider>
         <Child testId="parent" />
         <SangteProvider
-          initialize={(initializer) => {
-            initializer.set(state, 10)
+          initialize={({ set }) => {
+            set(state, 10)
           }}
         >
           <Child testId="child" />
@@ -84,8 +83,8 @@ describe('SangteProvider', () => {
       <SangteProvider>
         <Child testId="parent" />
         <SangteProvider
-          initialize={(initializer) => {
-            initializer.set(state, 10)
+          initialize={({ set }) => {
+            set(state, 10)
           }}
           inheritSangtes={[state]}
         >

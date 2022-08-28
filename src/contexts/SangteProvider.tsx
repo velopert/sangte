@@ -36,7 +36,9 @@ export function SangteProvider({
       manager.inherit(inheritSangtes)
     }
     if (initialize) {
-      initialize(manager.initializer)
+      initialize({
+        set: manager.initializer.set.bind(manager.initializer),
+      })
       manager.initializer.initialize()
     }
     initialized.current = true
