@@ -1,6 +1,6 @@
 import { SangteProvider } from '../contexts/SangteProvider'
+import { useSangteValue } from '../hooks'
 import { useSangte } from '../hooks/useSangte'
-import { useSangteSelector } from '../hooks/useSangteSelector'
 import { sangte } from '../lib/sangte'
 
 const counterSangte = sangte(0, undefined, {
@@ -20,7 +20,7 @@ const userSangte = sangte(
 
 function Child() {
   const [counter, setCounter] = useSangte(counterSangte)
-  const username = useSangteSelector(userSangte, (user) => user.username)
+  const username = useSangteValue(userSangte, (user) => user.username)
 
   return (
     <div>

@@ -1,7 +1,8 @@
+import Hydration from './samples/Hydration'
 import ImmerSample from './samples/ImmerSample'
 
 function App() {
-  return <ImmerSample />
+  return <Hydration />
 }
 
 export default App
