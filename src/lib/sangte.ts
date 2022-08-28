@@ -93,14 +93,30 @@ function createSangte<T, A extends ActionRecord<T>>(
 
 export function sangte<T, A extends ActionRecord<T>>(
   initialState: T,
-  actions?: Actions<T, A>,
-  config: SangteConfig = {}
+  config?: SangteConfig
+): Sangte<T, A>
+export function sangte<T, A extends ActionRecord<T>>(
+  initialState: T,
+  actions: Actions<T, A>,
+  config?: SangteConfig
+): Sangte<T, A>
+export function sangte<T, A extends ActionRecord<T>>(
+  initialState: T,
+  actions?: Actions<T, A> | SangteConfig,
+  config?: SangteConfig
 ) {
+  const hasActions = typeof actions === 'function'
   const sangte = function () {
-    return createSangte<T, A>(initialState, actions)
+    if (hasActions) {
+      return createSangte<T, A>(initialState, actions)
+    }
+    return createSangte(initialState)
   }
-
-  sangte.config = config
+  if (hasActions) {
+    sangte.config = config || {}
+  } else {
+    sangte.config = actions || {}
+  }
 
   return sangte
 }

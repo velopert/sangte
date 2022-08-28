@@ -102,8 +102,8 @@ describe('SangteProvider', () => {
   })
 
   it('should dehydrate', () => {
-    const counterState = sangte(0, undefined, { key: 'counter' })
-    const textState = sangte('hello world', undefined, { key: 'text' })
+    const counterState = sangte(0, { key: 'counter' })
+    const textState = sangte('hello world', { key: 'text' })
 
     function Child() {
       const counter = useSangteValue(counterState)

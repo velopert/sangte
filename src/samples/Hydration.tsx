@@ -3,7 +3,7 @@ import { useSangteSelector, useSangteValue } from '../hooks'
 import { useSangte } from '../hooks/useSangte'
 import { sangte } from '../lib/sangte'
 
-const counterSangte = sangte(0, undefined, {
+const counterSangte = sangte(0, {
   key: 'counter',
 })
 
@@ -12,7 +12,6 @@ const userSangte = sangte(
     id: 1,
     username: 'velopert',
   },
-  undefined,
   {
     key: 'user',
   }
