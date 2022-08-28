@@ -119,6 +119,27 @@ function CounterValue() {
 }
 ```
 
+If you want to select a part of the state, you can pass selector function as second argument. If you select multiple fields, the component will rerender after shallow comparison. You can override the comparison function by passing a custom equality function to third argument.
+
+```tsx
+import { sangte, useSangteValue } from 'sangte'
+
+const userState = sangte({ id: 1, name: 'John', email: 'john@email.com' })
+
+function User() {
+  const { name, email } = useSangteValue(userState, (state) => ({
+    name: state.name,
+    email: state.email,
+  }))
+  return (
+    <div>
+      <h1>{name}</h1>
+      <h2>{email}</h2>
+    </div>
+  )
+}
+```
+
 #### useSetSangte
 
 If you only need the updater function of the state, you can use `useSetSangte`.
@@ -160,29 +181,6 @@ function CounterButtons() {
     <div>
       <button onClick={increment}>Increase</button>
       <button onClick={() => decrease(10)}>Decrease</button>
-    </div>
-  )
-}
-```
-
-#### useSangteSelector
-
-If you want to select a part of the state, you can use `useSangteSelector`. If you select multiple fields, the component will rerender after shallow comparison. You can override the comparison function by passing a custom equality function to third argument.
-
-```tsx
-import { sangte, useSangteSelector } from 'sangte'
-
-const userState = sangte({ id: 1, name: 'John', email: 'john@email.com' })
-
-function User() {
-  const { name, email } = useSangteSelector(userState, (state) => ({
-    name: state.name,
-    email: state.email,
-  }))
-  return (
-    <div>
-      <h1>{name}</h1>
-      <h2>{email}</h2>
     </div>
   )
 }
