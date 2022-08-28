@@ -22,6 +22,8 @@ export type Sangte<T, A extends ActionRecord<T> = any> = {
   config: SangteConfig
 }
 
+export type UnwrapSangteValue<T> = T extends Sangte<infer U> ? U : T
+
 function isUpdateFn<T>(value: any): value is UpdateFn<T> {
   return typeof value === 'function'
 }
