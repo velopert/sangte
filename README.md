@@ -1,6 +1,8 @@
 # sangte
 
-![https://www.npmjs.com/package/sangte](https://img.shields.io/npm/v/sangte?style=flat-square) ![https://bundlephobia.com/package/sangte](https://img.shields.io/bundlephobia/min/sangte?style=flat-square) ![https://app.codecov.io/gh/velopert/sangte](https://img.shields.io/codecov/c/github/velopert/sangte?style=flat-square)
+[![](https://img.shields.io/npm/v/sangte?style=flat-square)](https://www.npmjs.com/package/sangte)
+[![](https://img.shields.io/bundlephobia/min/sangte?style=flat-square)](https://bundlephobia.com/package/sangte)
+[![](https://img.shields.io/codecov/c/github/velopert/sangte?style=flat-square)](https://app.codecov.io/gh/velopert/sangte)
 
 [English](./README.md) | [한국어](./README-ko.md)
 

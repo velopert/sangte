@@ -1,6 +1,8 @@
 # sangte
 
-![](https://img.shields.io/npm/v/sangte?style=flat-square) ![](https://img.shields.io/bundlephobia/min/sangte?style=flat-square)
+[![](https://img.shields.io/npm/v/sangte?style=flat-square)](https://www.npmjs.com/package/sangte)
+[![](https://img.shields.io/bundlephobia/min/sangte?style=flat-square)](https://bundlephobia.com/package/sangte)
+[![](https://img.shields.io/codecov/c/github/velopert/sangte?style=flat-square)](https://app.codecov.io/gh/velopert/sangte)
 
 Sangte 는 리액트의 상태 관리 라이브러리입니다. 이 라이브러리는 [Redux Toolkit](https://redux-toolkit.js.org/)과 [Recoil](https://recoiljs.org/)에서 영감을 받아 만들어졌습니다.
 
