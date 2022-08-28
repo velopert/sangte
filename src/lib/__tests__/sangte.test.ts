@@ -90,10 +90,13 @@ describe('sangte', () => {
   })
 
   it('should have config', () => {
-    const create = sangte({ count: 0 }, undefined, {
-      global: true,
-      key: 'counter',
-    })
+    const create = sangte(
+      { count: 0 },
+      {
+        global: true,
+        key: 'counter',
+      }
+    )
     expect(create.config).toEqual({
       global: true,
       key: 'counter',

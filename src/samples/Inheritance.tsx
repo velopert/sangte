@@ -13,7 +13,7 @@ const counterSangte = sangte(0, (prev) => ({
   },
 }))
 
-const textSangte = sangte('', undefined, {
+const textSangte = sangte('', {
   global: true,
 })
 
