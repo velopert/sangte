@@ -11,7 +11,11 @@ const bundle = (config) => ({
 
 export default [
   bundle({
-    plugins: [esbuild()],
+    plugins: [
+      esbuild({
+        jsx: 'automatic',
+      }),
+    ],
     output: [
       {
         file: `${name}.js`,

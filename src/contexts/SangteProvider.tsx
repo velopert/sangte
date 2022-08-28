@@ -8,7 +8,7 @@ const SangteContext = createContext<SangteManager | null>(null)
 interface SangteProviderProps {
   children: React.ReactNode
   inheritSangtes?: Sangte<any>[]
-  initialize?: (initializer: SangteInitializer) => void
+  initialize?: (params: { set: <T>(sangte: Sangte<T, any>, value: T) => void }) => void
   dehydratedState?: Record<string, any>
 }
 
