@@ -145,17 +145,17 @@ const counterState = sangte(0, (prev) => ({
   increase() {
     return prev + 1
   },
-  decrease() {
-    return prev - 1
+  decreaseBy(amount: number) {
+    return prev - amount
   },
 }))
 
 function CounterButtons() {
-  const { increment, decrement } = useSangteActions(counterState)
+  const { increase, decrease } = useSangteActions(counterState)
   return (
     <div>
-      <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
+      <button onClick={increment}>Increase</button>
+      <button onClick={() => decrease(10)}>Decrease</button>
     </div>
   )
 }
