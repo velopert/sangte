@@ -13,7 +13,6 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       provider: 'istanbul', // or 'c8',
-      reporter: 'lcov',
     },
   },
 })
