@@ -1,5 +1,5 @@
-import produce, { Draft, isDraft, isDraftable } from 'immer'
-;(window as any).produce = produce
+import produce, { Draft, isDraftable } from 'immer'
+
 type Fn = () => void
 type UpdateFn<T> = (state: T) => T
 export type ActionRecord<T> = Record<string, (...params: any[]) => T | Draft<T> | void>
