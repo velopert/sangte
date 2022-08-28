@@ -28,7 +28,7 @@ export function SangteProvider({
     }
     manager.dehydratedState = dehydratedState
     if (inheritSangtes) {
-      if (parent?.isDefault) {
+      if (!parent) {
         throw new Error(
           'Cannot inherit sangtes from default SangteManager. Please wrap your app with SangteProvider.'
         )

@@ -10,6 +10,7 @@ export default defineConfig({
   test: {
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     globals: true,
+    setupFiles: 'src/setupTests.ts',
     environment: 'jsdom',
     coverage: {
       provider: 'istanbul', // or 'c8',
