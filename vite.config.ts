@@ -11,5 +11,9 @@ export default defineConfig({
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     globals: true,
     environment: 'jsdom',
+    coverage: {
+      provider: 'istanbul', // or 'c8',
+      reporter: 'lcov',
+    },
   },
 })
