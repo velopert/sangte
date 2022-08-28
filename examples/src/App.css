@@ -1,0 +1,13 @@
+.samples {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.samples > div {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  border: 1px solid black;
+  width: 25%;
+  padding: 16px;
+}
