@@ -1,6 +1,6 @@
 import { it, describe, expect } from 'vitest'
 import { sangte } from '../../lib'
-import { useSangte } from '../useSangte'
+import { useSangte } from '..'
 import { renderHook, act } from '@testing-library/react-hooks'
 
 describe('useSangte', () => {
