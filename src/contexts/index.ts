@@ -1,1 +1,1 @@
-export * from "./SangteProvider";
+export * from './SangteProvider'

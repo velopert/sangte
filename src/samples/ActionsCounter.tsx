@@ -1,6 +1,6 @@
-import { useSangteActions } from "../hooks/useSangteActions";
-import { useSangteValue } from "../hooks/useSangteValue";
-import { sangte } from "../lib/sangte";
+import { useSangteActions } from '../hooks/useSangteActions'
+import { useSangteValue } from '../hooks/useSangteValue'
+import { sangte } from '../lib/sangte'
 
 const mySangte = sangte(
   {
@@ -8,25 +8,25 @@ const mySangte = sangte(
   },
   (prevState) => ({
     increase() {
-      prevState.value += 1;
+      prevState.value += 1
     },
     decrease() {
-      prevState.value -= 1;
+      prevState.value -= 1
     },
     setTo(value: number) {
-      prevState.value = value;
+      prevState.value = value
     },
     reset() {
       return {
         value: 0,
-      };
+      }
     },
   })
-);
+)
 
 function ActionsCounter() {
-  const value = useSangteValue(mySangte);
-  const actions = useSangteActions(mySangte);
+  const value = useSangteValue(mySangte)
+  const actions = useSangteActions(mySangte)
 
   return (
     <div>
@@ -36,7 +36,7 @@ function ActionsCounter() {
       <button onClick={actions.decrease}>-1</button>
       <button onClick={actions.reset}>Reset</button>
     </div>
-  );
+  )
 }
 
-export default ActionsCounter;
+export default ActionsCounter

@@ -1,7 +1,7 @@
-import ImmerSample from "./samples/ImmerSample";
+import ImmerSample from './samples/ImmerSample'
 
 function App() {
-  return <ImmerSample />;
+  return <ImmerSample />
 }
 
-export default App;
+export default App
