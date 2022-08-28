@@ -1,5 +1,7 @@
 # sangte
 
+![](https://img.shields.io/npm/v/sangte?style=flat-square) ![](https://img.shields.io/bundlephobia/min/sangte?style=flat-square)
+
 Sangte is a state management library for React. This library is inspired by [Redux Toolkit](https://redux-toolkit.js.org/) and [Recoil](https://recoiljs.org/).
 
 > Sangte means "state" in Korean.
