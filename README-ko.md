@@ -117,6 +117,27 @@ function CounterValue() {
 }
 ```
 
+상태에서 일부분의 값만 필요로 한다면 두번째 인자에 셀렉터 함수를 넣어서 원하는 부분만 선택할 수 있습니다. 객체 형태로 여러 필드를 선택하게 된다면 기본적으로 shallow compare를 하고 나서 리렌더링을 합니다. 비교 함수는 세번째 인자에 임의 비교 함수를 전달하여 override 할 수 있습니다.
+
+```tsx
+import { sangte, useSangteValue } from 'sangte'
+
+const userState = sangte({ id: 1, name: 'John', email: 'john@email.com' })
+
+function User() {
+  const { name, email } = useSangteValue(userState, (state) => ({
+    name: state.name,
+    email: state.email,
+  }))
+  return (
+    <div>
+      <h1>{name}</h1>
+      <h2>{email}</h2>
+    </div>
+  )
+}
+```
+
 #### useSetSangte
 
 만약 컴포넌트에서 상태 업데이트 함수만을 필요로 한다면 `useSetSangte`를 사용하세요.
@@ -158,29 +179,6 @@ function CounterButtons() {
     <div>
       <button onClick={increment}>Increase</button>
       <button onClick={() => decrease(10)}>Decrease</button>
-    </div>
-  )
-}
-```
-
-#### useSangteSelector
-
-상태에서 일부분의 값만 필요로 한다면 `useSangteSelector`를 사용하여 원하는 부분만 선택할 수 있습니다. 객체 형태로 여러 필드를 선택하게 된다면 기본적으로 shallow compare를 하고 나서 리렌더링을 합니다. 비교 함수는 세번째 인자에 임의 비교 함수를 전달하여 override 할 수 있습니다.
-
-```tsx
-import { sangte, useSangteSelector } from 'sangte'
-
-const userState = sangte({ id: 1, name: 'John', email: 'john@email.com' })
-
-function User() {
-  const { name, email } = useSangteSelector(userState, (state) => ({
-    name: state.name,
-    email: state.email,
-  }))
-  return (
-    <div>
-      <h1>{name}</h1>
-      <h2>{email}</h2>
     </div>
   )
 }
