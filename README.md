@@ -208,6 +208,45 @@ function Counter() {
 }
 ```
 
+#### useSangteCallback
+
+If you want to control the state without subscribing it, you can use `useSangteCallback`.
+
+```tsx
+import { sangte, useSangteCallback } from 'sangte'
+
+const counterState = sangte(0, (prev) => ({
+  add(value: number) {
+    return prev + value
+  },
+}))
+
+function Counter() {
+  /* will add prev value and 2 */
+  const add2 = useSangteCallback(({ actions }) => {
+    const { add } = actions(counter);
+    add(2);
+  }, []);
+  /* will log current count value to your console */
+  const logCount = useSangteCallback(({ get }) => {
+    const count = get(counter);
+    console.log(count);
+  }, []);
+  /* will set value */
+  const set10000 = useSangteCallback(({ set }) => {
+    set(counter, 10000);
+  }, []);
+
+  return (
+    <div>
+      <button onClick={add2}>add 2</button>
+      <button onClick={logCount}>logCount</button>
+      <button onClick={set10000}>set 10000</button>
+    </div>
+  );
+}
+```
+
 ## Recipe
 
 ### Using multiple providers
