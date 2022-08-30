@@ -143,7 +143,7 @@ function User() {
 만약 컴포넌트에서 상태 업데이트 함수만을 필요로 한다면 `useSetSangte`를 사용하세요.
 
 ```tsx
-import { sangte, useSangteValue } from 'sangte'
+import { sangte, useSetSangte } from 'sangte'
 
 const counterState = sangte(0)
 

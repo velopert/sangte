@@ -145,7 +145,7 @@ function User() {
 If you only need the updater function of the state, you can use `useSetSangte`.
 
 ```tsx
-import { sangte, useSangteValue } from 'sangte'
+import { sangte, useSetSangte } from 'sangte'
 
 const counterState = sangte(0)
 
