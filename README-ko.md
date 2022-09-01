@@ -205,3 +205,42 @@ function Counter() {
   )
 }
 ```
+
+#### useSangteCallback
+
+상태를 구독하지 않고 컨트롤하고 싶다면, `useSangteCallback`을 사용하세요.
+
+```tsx
+import { sangte, useSangteCallback } from 'sangte'
+
+const counterState = sangte(0, (prev) => ({
+  add(value: number) {
+    return prev + value
+  },
+}))
+
+function Counter() {
+  /* 이전 상태에 2를 더합니다. */
+  const add2 = useSangteCallback(({ actions }) => {
+    const { add } = actions(counter);
+    add(2);
+  }, []);
+  /* 콘솔에 현재 상태값을 남김니다. */
+  const logCount = useSangteCallback(({ get }) => {
+    const count = get(counter);
+    console.log(count);
+  }, []);
+  /* 상태값을 10000으로 설정합니다.  */
+  const set10000 = useSangteCallback(({ set }) => {
+    set(counter, 10000);
+  }, []);
+
+  return (
+    <div>
+      <button onClick={add2}>add 2</button>
+      <button onClick={logCount}>logCount</button>
+      <button onClick={set10000}>set 10000</button>
+    </div>
+  );
+}
+```
