@@ -52,6 +52,9 @@ export function SangteProvider({
 
   initializeProvider()
 
+  /**
+   * Reinitialization needed because useEffect runs twice on component mount in future React (and development mode)
+   */
   useEffect(() => {
     initializeProvider()
     return () => {
