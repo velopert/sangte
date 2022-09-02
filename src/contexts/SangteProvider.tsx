@@ -23,31 +23,31 @@ export function SangteProvider({
   const initialized = useRef(false)
 
   const initializeProvider = useCallback(() => {
+    if (initialized.current) return
+
     const manager = new SangteManager()
     managerRef.current = manager
 
-    if (!initialized.current) {
-      if (parent) {
-        manager.parent = parent
-        parent.children.add(manager)
-      }
-      manager.dehydratedState = dehydratedState
-      if (inheritSangtes) {
-        if (!parent) {
-          throw new Error(
-            'Cannot inherit sangtes from default SangteManager. Please wrap your app with SangteProvider.'
-          )
-        }
-        manager.inherit(inheritSangtes)
-      }
-      if (initialize) {
-        initialize({
-          set: manager.initializer.set.bind(manager.initializer),
-        })
-        manager.initializer.initialize()
-      }
-      initialized.current = true
+    if (parent) {
+      manager.parent = parent
+      parent.children.add(manager)
     }
+    manager.dehydratedState = dehydratedState
+    if (inheritSangtes) {
+      if (!parent) {
+        throw new Error(
+          'Cannot inherit sangtes from default SangteManager. Please wrap your app with SangteProvider.'
+        )
+      }
+      manager.inherit(inheritSangtes)
+    }
+    if (initialize) {
+      initialize({
+        set: manager.initializer.set.bind(manager.initializer),
+      })
+      manager.initializer.initialize()
+    }
+    initialized.current = true
   }, [])
 
   initializeProvider()
