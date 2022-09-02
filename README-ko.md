@@ -208,7 +208,25 @@ function Counter() {
 
 #### useSangteCallback
 
-상태를 구독하지 않고 컨트롤하고 싶다면, `useSangteCallback`을 사용하세요.
+콜백 함수 안에서 상태 값을 사용하고 싶지만 상태 값이 바뀔 때마다 컴포넌트가 리렌더링 되는 것을 원하지 않는다면, `useSangteCallback`을 쓰세요.
+
+```tsx
+import { sangte, useSangteCallback } from 'sangte'
+
+const valueState = sangte('hello world!')
+
+function ConfirmButton() {
+  // 이 컴포넌트는 valueState가 변경되어도 리렌더링 되지 않습니다.
+  const confirm = useSangteCallback(({ get }) => {
+    const value = get(valueState)
+    console.log(value) // value 값을 가지고 어떠한 작업을 하기..
+  }, [])
+
+  return <button onClick={confirm}>Confirm</button>
+}
+```
+
+`useSangteCallback`에서 상태 업데이트 함수나 액션들을 사용할 수 있습니다.
 
 ```tsx
 import { sangte, useSangteCallback } from 'sangte'
@@ -220,20 +238,16 @@ const counterState = sangte(0, (prev) => ({
 }))
 
 function Counter() {
-  /* 이전 상태에 2를 더합니다. */
+  // add 호출
   const add2 = useSangteCallback(({ actions }) => {
-    const { add } = actions(counter);
-    add(2);
-  }, []);
-  /* 콘솔에 현재 상태값을 남김니다. */
-  const logCount = useSangteCallback(({ get }) => {
-    const count = get(counter);
-    console.log(count);
-  }, []);
-  /* 상태값을 10000으로 설정합니다.  */
+    const { add } = actions(counterState)
+    add(2)
+  }, [])
+
+  // counterState 10000으로 변경
   const set10000 = useSangteCallback(({ set }) => {
-    set(counter, 10000);
-  }, []);
+    set(counterState, 10000)
+  }, [])
 
   return (
     <div>
@@ -241,6 +255,6 @@ function Counter() {
       <button onClick={logCount}>logCount</button>
       <button onClick={set10000}>set 10000</button>
     </div>
-  );
+  )
 }
 ```

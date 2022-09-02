@@ -210,7 +210,25 @@ function Counter() {
 
 #### useSangteCallback
 
-If you want to control the state without subscribing it, you can use `useSangteCallback`.
+If you want to use the state in a callback but you do not want to rerender the component as the state changes, you can use `useSangteCallback`.
+
+```tsx
+import { sangte, useSangteCallback } from 'sangte'
+
+const valueState = sangte('hello world!')
+
+function ConfirmButton() {
+  // this component won't rerender even when valueState changes
+  const confirm = useSangteCallback(({ get }) => {
+    const value = get(valueState)
+    console.log(value) // do something with value..
+  }, [])
+
+  return <button onClick={confirm}>Confirm</button>
+}
+```
+
+You can also use the setter function or actions with `useSangteCallback`.
 
 ```tsx
 import { sangte, useSangteCallback } from 'sangte'
@@ -222,20 +240,16 @@ const counterState = sangte(0, (prev) => ({
 }))
 
 function Counter() {
-  /* will add prev value and 2 */
+  // calls add action
   const add2 = useSangteCallback(({ actions }) => {
-    const { add } = actions(counter);
-    add(2);
-  }, []);
-  /* will log current count value to your console */
-  const logCount = useSangteCallback(({ get }) => {
-    const count = get(counter);
-    console.log(count);
-  }, []);
-  /* will set value */
+    const { add } = actions(counterState)
+    add(2)
+  }, [])
+
+  // sets counterState to 10000
   const set10000 = useSangteCallback(({ set }) => {
-    set(counter, 10000);
-  }, []);
+    set(counterState, 10000)
+  }, [])
 
   return (
     <div>
@@ -243,7 +257,7 @@ function Counter() {
       <button onClick={logCount}>logCount</button>
       <button onClick={set10000}>set 10000</button>
     </div>
-  );
+  )
 }
 ```
 
