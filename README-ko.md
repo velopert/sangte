@@ -258,3 +258,42 @@ function Counter() {
   )
 }
 ```
+
+#### useResetAllSangte
+
+모든 상태를 초기화하고 싶다면 `useResetAllSangte`를 사용하세요. 이 hook은 자식 SangteProvider에도 영향을 미칩니다.
+
+```tsx
+import { sangte, useResetAllSangte } from 'sangte'
+
+const counterState = sangte(0)
+const textState = sangte('text')
+
+function Counter() {
+  const [counter, setCounter] = useSangte(counterState)
+  const [text, setText] = useSangte(textState)
+  const resetAll = useResetAllSangte()
+
+  return (
+    <div>
+      <h1>
+        {counter} | {text}
+      </h1>
+      <button onClick={() => setCounter((prev) => prev + 1)}>Increment</button>
+      <button onClick={() => setText('Hello World'}>Update Text</button>
+      <button onClick={resetAll}>Reset</button>
+    </div>
+  )
+}
+```
+
+전역적으로 모든 상태(모든 부모 SangteProvider에 있는 상태 포함)를 초기화하고 싶다면 함수의 첫번째 인자에 `true`를 넘겨주세요.
+
+```tsx
+import { sangte, useResetAllSangte } from 'sangte'
+
+function RestAll() {
+  const resetAll = useResetAllSangte()
+  return <button onClick={() => resetAll(true)}>Reset All</button>
+}
+```

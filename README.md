@@ -208,6 +208,44 @@ function Counter() {
 }
 ```
 
+#### useResetAllSangte
+
+If you want to reset all the states to their default values, you can use `useResetAllSangte`. This hook also resets sangte inside the nested providers.
+
+```tsx
+import { sangte, useResetAllSangte } from 'sangte'
+
+const counterState = sangte(0)
+const textState = sangte('text')
+
+function Counter() {
+  const [counter, setCounter] = useSangte(counterState)
+  const [text, setText] = useSangte(textState)
+  const resetAll = useResetAllSangte()
+
+  return (
+    <div>
+      <h1>
+        {counter} | {text}
+      </h1>
+      <button onClick={() => setCounter((prev) => prev + 1)}>Increment</button>
+      <button onClick={() => setText('Hello World'}>Update Text</button>
+      <button onClick={resetAll}>Reset</button>
+    </div>
+  )
+}
+```
+
+If you want to reset the states globally (including all parent providers), you can pass `true` as first argument.
+
+````tsx
+import { sangte, useResetAllSangte } from 'sangte'
+
+function RestAll() {
+  const resetAll = useResetAllSangte()
+  return <button onClick={() => resetAll(true)}>Reset All</button>
+}
+
 #### useSangteCallback
 
 If you want to use the state in a callback but you do not want to rerender the component as the state changes, you can use `useSangteCallback`.
@@ -226,7 +264,7 @@ function ConfirmButton() {
 
   return <button onClick={confirm}>Confirm</button>
 }
-```
+````
 
 You can also use the setter function or actions with `useSangteCallback`.
 

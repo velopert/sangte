@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef } from 'react'
 import { Sangte } from '../lib/sangte'
 import { SangteInitializer } from '../lib/SangteInitializer'
 import { SangteManager } from '../lib/SangteManager'
@@ -19,32 +19,50 @@ export function SangteProvider({
   dehydratedState,
 }: SangteProviderProps) {
   const parent = useContext(SangteContext)
-  const manager = useRef(new SangteManager()).current
+  const managerRef = useRef<SangteManager | null>(null)
   const initialized = useRef(false)
 
-  if (!initialized.current) {
-    if (!parent?.isDefault) {
-      manager.parent = parent
-    }
-    manager.dehydratedState = dehydratedState
-    if (inheritSangtes) {
-      if (!parent) {
-        throw new Error(
-          'Cannot inherit sangtes from default SangteManager. Please wrap your app with SangteProvider.'
-        )
-      }
-      manager.inherit(inheritSangtes)
-    }
-    if (initialize) {
-      initialize({
-        set: manager.initializer.set.bind(manager.initializer),
-      })
-      manager.initializer.initialize()
-    }
-    initialized.current = true
-  }
+  const initializeProvider = useCallback(() => {
+    const manager = new SangteManager()
+    managerRef.current = manager
 
-  return <SangteContext.Provider value={manager}>{children}</SangteContext.Provider>
+    if (!initialized.current) {
+      if (parent) {
+        manager.parent = parent
+        parent.children.add(manager)
+      }
+      manager.dehydratedState = dehydratedState
+      if (inheritSangtes) {
+        if (!parent) {
+          throw new Error(
+            'Cannot inherit sangtes from default SangteManager. Please wrap your app with SangteProvider.'
+          )
+        }
+        manager.inherit(inheritSangtes)
+      }
+      if (initialize) {
+        initialize({
+          set: manager.initializer.set.bind(manager.initializer),
+        })
+        manager.initializer.initialize()
+      }
+      initialized.current = true
+    }
+  }, [])
+
+  initializeProvider()
+
+  useEffect(() => {
+    initializeProvider()
+    return () => {
+      initialized.current = false
+      if (parent && managerRef.current) {
+        parent.children.delete(managerRef.current)
+      }
+    }
+  }, [initializeProvider])
+
+  return <SangteContext.Provider value={managerRef.current}>{children}</SangteContext.Provider>
 }
 
 /**
