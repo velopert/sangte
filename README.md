@@ -238,13 +238,14 @@ function Counter() {
 
 If you want to reset the states globally (including all parent providers), you can pass `true` as first argument.
 
-````tsx
+```tsx
 import { sangte, useResetAllSangte } from 'sangte'
 
 function RestAll() {
   const resetAll = useResetAllSangte()
   return <button onClick={() => resetAll(true)}>Reset All</button>
 }
+```
 
 #### useSangteCallback
 
@@ -264,7 +265,7 @@ function ConfirmButton() {
 
   return <button onClick={confirm}>Confirm</button>
 }
-````
+```
 
 You can also use the setter function or actions with `useSangteCallback`.
 
