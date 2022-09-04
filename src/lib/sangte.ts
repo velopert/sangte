@@ -3,21 +3,22 @@ import produce, { Draft, isDraftable } from 'immer'
 type Fn = () => void
 type UpdateFn<T> = (state: T) => T
 export type ActionRecord<T> = Record<string, (...params: any[]) => T | Draft<T> | void>
-type Actions<T, A extends ActionRecord<T>> = (prevState: Draft<T> | T) => A
+type Action<T, A> = A extends ActionRecord<T> ? A : never
+type Actions<T, A> = (prevState: Draft<T> | T) => Action<T, A>
 interface SangteConfig {
   key?: string
   global?: boolean
 }
 
-export type SangteInstance<T, A extends ActionRecord<T>> = {
+export type SangteInstance<T, A> = {
   initialState: T
   getState: () => T
   setState: (update: UpdateFn<T> | T) => void
   subscribe: (callback: Fn) => Fn
-  actions: A | null
+  actions: Action<T, A> | null
   reset: () => void
 }
-export type Sangte<T, A extends ActionRecord<T> = any> = {
+export type Sangte<T, A = any> = {
   (): SangteInstance<T, A>
   config: SangteConfig
 }
@@ -30,10 +31,7 @@ function isUpdateFn<T>(value: any): value is UpdateFn<T> {
   return typeof value === 'function'
 }
 
-function createSangte<T, A extends ActionRecord<T>>(
-  initialState: T,
-  createActions?: Actions<T, A>
-): SangteInstance<T, A> {
+function createSangte<T, A>(initialState: T, createActions?: Actions<T, A>): SangteInstance<T, A> {
   let state = initialState
   const callbacks = new Set<Fn>()
 
@@ -61,8 +59,9 @@ function createSangte<T, A extends ActionRecord<T>>(
 
   const actions = (() => {
     if (!createActions) return null
+    type ActionKey = keyof Action<T, A>
     const record = createActions(initialState)
-    const keys = Object.keys(record) as (keyof A)[]
+    const keys = Object.keys(record) as ActionKey[]
     keys.forEach((key) => {
       record[key] = ((...params: any[]) => {
         setState((prevState) => {
@@ -80,7 +79,7 @@ function createSangte<T, A extends ActionRecord<T>>(
           })
           return produced
         })
-      }) as A[keyof A]
+      }) as Action<T, A>[ActionKey]
     })
     return record
   })()
@@ -95,16 +94,13 @@ function createSangte<T, A extends ActionRecord<T>>(
   }
 }
 
-export function sangte<T, A extends ActionRecord<T>>(
-  initialState: T,
-  config?: SangteConfig
-): Sangte<T, A>
-export function sangte<T, A extends ActionRecord<T>>(
+export function sangte<T, A>(initialState: T, config?: SangteConfig): Sangte<T, A>
+export function sangte<T, A>(
   initialState: T,
   actions: Actions<T, A>,
   config?: SangteConfig
 ): Sangte<T, A>
-export function sangte<T, A extends ActionRecord<T>>(
+export function sangte<T, A>(
   initialState: T,
   actions?: Actions<T, A> | SangteConfig,
   config?: SangteConfig
@@ -112,7 +108,7 @@ export function sangte<T, A extends ActionRecord<T>>(
   const hasActions = typeof actions === 'function'
   const sangte = function () {
     if (hasActions) {
-      return createSangte<T, A>(initialState, actions)
+      return createSangte(initialState, actions)
     }
     return createSangte(initialState)
   }

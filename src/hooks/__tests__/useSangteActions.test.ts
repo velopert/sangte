@@ -40,6 +40,7 @@ describe('useSangteActions', () => {
     expect(() => {
       const {
         result: { current: actions },
+        // @ts-ignore
       } = renderHook(() => useSangteActions(state))
     }).toThrowError()
   })
