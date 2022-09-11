@@ -9,6 +9,7 @@ import GlobalState from './components/GlobalState'
 import MemoizedSelector from './components/MemoizedSelector'
 import Todos from './components/Todos'
 import VisibleToggle from './components/VisibleToggle'
+import MemoryLeakTester from './components/MemoryLeakTester'
 
 function App() {
   return (
@@ -29,6 +30,11 @@ function App() {
         <MultiProviders />
       </div>
       <div>
+        <VisibleToggle>
+          <MultiProviders />
+        </VisibleToggle>
+      </div>
+      <div>
         <Inherit />
       </div>
       <div>
@@ -45,6 +51,23 @@ function App() {
       <div>
         <VisibleToggle>
           <MemoizedSelector />
+        </VisibleToggle>
+      </div>
+      <div>
+        <VisibleToggle>
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
+          <MemoryLeakTester />
         </VisibleToggle>
       </div>
     </div>
