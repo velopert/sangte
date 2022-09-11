@@ -13,6 +13,7 @@ export class SangteInitializer {
   public initialize() {
     this.sangteInitialStateMap.forEach((initialState, sangte) => {
       const instance = this.manager.get(sangte)
+      if (sangte.config.isResangte) return
       instance.setState(initialState)
     })
   }

@@ -138,6 +138,22 @@ function User() {
 }
 ```
 
+만약 의존하는 값이 업데이트 되었을 때만 실행되는 memoized 셀렉터를 사용하고 싶으시다면 다음과 같이 읽기 전용 Sangte를 만들어서 사용할 수 있습니다.
+
+```tsx
+import { sangte } from 'sangte'
+const todosState = sangte([
+  { id: 1, text: 'Basic usage', done: true },
+  { id: 21, text: 'Ready-only sangte', done: false },
+])
+const undoneTodosValue = sangte((get) => get(todosState).filter((todo) => !todo.done))
+function UndoneTodos() {
+  const undoneTodos = useSangteValue(undoneTodosValue)
+
+  return <div>{undoneTodos.length} todos undone.</div>
+}
+```
+
 #### useSetSangte
 
 만약 컴포넌트에서 상태 업데이트 함수만을 필요로 한다면 `useSetSangte`를 사용하세요.

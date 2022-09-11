@@ -3,7 +3,7 @@
   "description": "Sangte is a fancy React state management library.",
   "private": false,
   "sideEffects": false,
-  "version": "0.1.21",
+  "version": "0.1.23",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
