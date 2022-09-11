@@ -140,6 +140,22 @@ function User() {
 }
 ```
 
+If you want to use a memoized selector that is prcessed only when its dependencies update, you can create a read-only Sangte as below.
+
+```tsx
+import { sangte } from 'sangte'
+const todosState = sangte([
+  { id: 1, text: 'Basic usage', done: true },
+  { id: 21, text: 'Ready-only sangte', done: false },
+])
+const undoneTodosValue = sangte((get) => get(todosState).filter((todo) => !todo.done))
+function UndoneTodos() {
+  const undoneTodos = useSangteValue(undoneTodosValue)
+
+  return <div>{undoneTodos.length} todos undone.</div>
+}
+```
+
 #### useSetSangte
 
 If you only need the updater function of the state, you can use `useSetSangte`.
