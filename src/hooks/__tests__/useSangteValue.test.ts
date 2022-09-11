@@ -15,7 +15,7 @@ describe('useSangteValue', () => {
     expect(result.current).toBe(0)
   })
 
-  it('selectes memoized value', () => {
+  it('selects memoized value', () => {
     const numbersState = sangte([0, 1, 2, 3, 4, 5])
     const filteredNumbersState = sangte((get) => get(numbersState).filter((number) => number > 2))
     const { result } = renderHook(() => useSangteValue(filteredNumbersState))
