@@ -1,11 +1,11 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { atom } from '../../lib'
+import { sangte } from '../../lib'
 import { useResetSangte } from '../useResetSangte'
 import { useSangte } from '../useSangte'
 
 describe('useResetSangte', () => {
   it('resets to initialState', () => {
-    const state = atom(0)
+    const state = sangte(0)
     const { result } = renderHook(() => useSangte(state))
     act(() => {
       result.current[1](5)

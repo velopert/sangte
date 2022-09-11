@@ -1,4 +1,4 @@
-import { resangte, sangte } from '../sangte'
+import { sangte } from '../sangte'
 import { SangteManager } from '../SangteManager'
 
 describe('sangte', () => {
@@ -110,7 +110,7 @@ describe('resangte', () => {
     const state = sangte([1, 2, 3, 4, 5])
     const manager = new SangteManager()
     manager.get(state)
-    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const selectedState = sangte((get) => get(state).filter((number) => number > 2))
     const store = manager.get(selectedState)
     expect(store.getState()).toEqual([3, 4, 5])
   })
@@ -118,7 +118,7 @@ describe('resangte', () => {
     const state = sangte([1, 2, 3, 4, 5])
     const manager = new SangteManager()
     manager.get(state)
-    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const selectedState = sangte((get) => get(state).filter((number) => number > 2))
     const store = manager.get(selectedState)
     const callback = jest.fn()
     store.subscribe(callback)
@@ -130,7 +130,7 @@ describe('resangte', () => {
     const state = sangte([1, 2, 3, 4, 5])
     const manager = new SangteManager()
     manager.get(state)
-    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const selectedState = sangte((get) => get(state).filter((number) => number > 2))
     const store = manager.get(selectedState)
     const callback = jest.fn()
     let unsubscribe = store.subscribe(callback)
@@ -144,7 +144,7 @@ describe('resangte', () => {
     const state = sangte([1, 2, 3, 4, 5])
     const manager = new SangteManager()
     manager.get(state)
-    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const selectedState = sangte((get) => get(state).filter((number) => number > 2))
     const store = manager.get(selectedState)
     const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
     store.reset()
@@ -154,7 +154,7 @@ describe('resangte', () => {
   })
   it('throws error when manager is not used', () => {
     const state = sangte([1, 2, 3, 4, 5])
-    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const selectedState = sangte((get) => get(state).filter((number) => number > 2))
     expect(() => {
       const store = selectedState()
     }).toThrowError()

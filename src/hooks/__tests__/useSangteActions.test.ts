@@ -1,11 +1,11 @@
 import { renderHook, act } from '@testing-library/react-hooks'
-import { atom } from '../../lib'
+import { sangte } from '../../lib'
 import { useSangteActions } from '../useSangteActions'
 import { useSangteValue } from '../useSangteValue'
 
 describe('useSangteActions', () => {
   it('returns actions', () => {
-    const state = atom(0, (prev) => ({
+    const state = sangte(0, (prev) => ({
       increase() {
         return prev + 1
       },
@@ -17,7 +17,7 @@ describe('useSangteActions', () => {
     expect(typeof result.current.decrease).toBe('function')
   })
   it('updates value according to actions', () => {
-    const state = atom(0, (prev) => ({
+    const state = sangte(0, (prev) => ({
       increase() {
         return prev + 1
       },
@@ -36,7 +36,7 @@ describe('useSangteActions', () => {
     expect(result.current).toBe(1)
   })
   it('throws error when action not defined', () => {
-    const state = atom(0)
+    const state = sangte(0)
     expect(() => {
       const {
         result: { current: actions },

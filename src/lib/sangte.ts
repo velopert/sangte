@@ -30,8 +30,12 @@ export type Sangte<T, A = any> = {
 }
 
 export type UnwrapSangteValue<T> = T extends Sangte<infer U> ? U : never
-
 export type UnwrapSangteAction<T> = T extends Sangte<any, infer U> ? U : never
+
+type Selector<T> = (get: Getter) => T
+function isSelector<T>(fn: any): fn is Selector<T> {
+  return typeof fn === 'function'
+}
 
 function isUpdateFn<T>(value: any): value is UpdateFn<T> {
   return typeof value === 'function'
@@ -100,6 +104,7 @@ function createSangte<T, A>(initialState: T, createActions?: Actions<T, A>): San
   }
 }
 
+export function sangte<T>(selector: (get: Getter) => T): Sangte<T>
 export function sangte<T, A>(initialState: T, config?: SangteConfig): Sangte<T, A>
 export function sangte<T, A>(
   initialState: T,
@@ -107,16 +112,20 @@ export function sangte<T, A>(
   config?: SangteConfig
 ): Sangte<T, A>
 export function sangte<T, A>(
-  initialState: T,
+  selectorOrInitialState: T | ((get: Getter) => T),
   actionsOrConfig?: Actions<T, A> | SangteConfig,
   config?: SangteConfig
 ) {
+  if (isSelector(selectorOrInitialState)) {
+    return resangte(selectorOrInitialState)
+  }
+
   const hasActions = typeof actionsOrConfig === 'function'
   const sangte = function () {
     if (hasActions) {
-      return createSangte(initialState, actionsOrConfig)
+      return createSangte(selectorOrInitialState, actionsOrConfig)
     }
-    return createSangte(initialState)
+    return createSangte(selectorOrInitialState)
   }
   if (hasActions) {
     sangte.config = config || {}

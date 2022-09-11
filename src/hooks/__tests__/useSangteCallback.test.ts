@@ -1,11 +1,11 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { atom } from '../../lib'
+import { sangte } from '../../lib'
 import { useSangteCallback } from '../useSangteCallback'
 import { useSangteValue } from '../useSangteValue'
 
 describe('useSangteCallback', () => {
   it('get value', () => {
-    const state = atom(5)
+    const state = sangte(5)
 
     let value
     const { result } = renderHook(() =>
@@ -20,7 +20,7 @@ describe('useSangteCallback', () => {
   })
 
   it('set value', () => {
-    const state = atom(0)
+    const state = sangte(0)
 
     const { result: sangteValue } = renderHook(() => useSangteValue(state))
     expect(sangteValue.current).toBe(0)
@@ -37,7 +37,7 @@ describe('useSangteCallback', () => {
   })
 
   it('update value with action', () => {
-    const state = atom(0, (prev) => ({
+    const state = sangte(0, (prev) => ({
       increase() {
         return prev + 1
       },
@@ -59,7 +59,7 @@ describe('useSangteCallback', () => {
   })
 
   it('throws error when action not defined ', () => {
-    const state = atom(0)
+    const state = sangte(0)
 
     const { result } = renderHook(() =>
       useSangteCallback(({ actions }) => {
