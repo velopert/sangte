@@ -14,8 +14,8 @@ export class SangteManager {
     if (instance) {
       return instance
     }
-    const newInstance = sangte()
-    if (sangte.config.key && this.dehydratedState) {
+    const newInstance = sangte(this)
+    if (sangte.config.key && this.dehydratedState && !sangte.config.isResangte) {
       const selected = this.dehydratedState[sangte.config.key]
       if (selected) {
         newInstance.setState(selected)
@@ -52,7 +52,11 @@ export class SangteManager {
       this.getRootSangteManager().reset()
       return
     }
-    this.instanceMap.forEach((instance) => instance.reset())
+    Array.from(this.instanceMap.entries()).forEach(([sangte, instance]) => {
+      if (!sangte.config.isResangte) {
+        instance.reset()
+      }
+    })
     this.children.forEach((child) => child.reset())
   }
 }

@@ -1,4 +1,5 @@
 import produce, { Draft, isDraftable } from 'immer'
+import { SangteManager } from './SangteManager'
 
 type Fn = () => void
 type UpdateFn<T> = (state: T) => T
@@ -8,6 +9,11 @@ type Actions<T, A> = (prevState: Draft<T> | T) => Action<T, A>
 interface SangteConfig {
   key?: string
   global?: boolean
+  isResangte?: boolean
+}
+
+type Getter = {
+  <T>(sangte: Sangte<T>): T
 }
 
 export type SangteInstance<T, A> = {
@@ -19,7 +25,7 @@ export type SangteInstance<T, A> = {
   reset: () => void
 }
 export type Sangte<T, A = any> = {
-  (): SangteInstance<T, A>
+  (manager?: SangteManager): SangteInstance<T, A>
   config: SangteConfig
 }
 
@@ -119,4 +125,82 @@ export function sangte<T, A>(
   }
 
   return sangte
+}
+
+function createResangte<T>(
+  selector: (getter: Getter) => T,
+  sangteManager: SangteManager
+): SangteInstance<T, any> {
+  let unmounted = false
+  const sangteDeps = new Set<Sangte<any, any>>()
+  const subscriptions = new Set<() => void>()
+  const getter: Getter = (sangte) => {
+    if (!sangteDeps.has(sangte)) {
+      sangteDeps.add(sangte)
+    }
+    return sangteManager.get(sangte).getState()
+  }
+  let state = selector(getter)
+  const callbacks = new Set<Fn>()
+  const getState = () => {
+    if (unmounted) {
+      unmounted = false
+      state = selector(getter)
+    }
+    return state
+  }
+
+  const update = () => {
+    state = selector(getter)
+    callbacks.forEach((cb) => cb())
+  }
+
+  const subscribe = (callback: Fn) => {
+    if (callbacks.size === 0) {
+      sangteDeps.forEach((sangte) => {
+        const unsubscribe = sangteManager.get(sangte).subscribe(update)
+        subscriptions.add(unsubscribe)
+      })
+    }
+    callbacks.add(callback)
+    return () => {
+      callbacks.delete(callback)
+      if (callbacks.size === 0) {
+        subscriptions.forEach((unsubscribe) => unsubscribe())
+        subscriptions.clear()
+        unmounted = true
+      }
+    }
+  }
+
+  const setState = () => {
+    console.warn('setState is not supported in resangte')
+  }
+
+  const reset = () => {
+    console.warn('reset is not supported in resangte')
+  }
+
+  return {
+    initialState: state,
+    actions: null,
+    getState,
+    subscribe,
+    setState,
+    reset,
+  }
+}
+
+export function resangte<T>(selector: (getter: Getter) => T): Sangte<T> {
+  const resangte = function (sangteManager?: SangteManager) {
+    if (!sangteManager) {
+      throw new Error('Cannot create resangte without a manager')
+    }
+    return createResangte(selector, sangteManager)
+  }
+  resangte.config = {
+    isResangte: true,
+  }
+
+  return resangte
 }
