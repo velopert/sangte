@@ -14,7 +14,7 @@ export class SangteInitializer {
     this.sangteInitialStateMap.forEach((initialState, sangte) => {
       const instance = this.manager.get(sangte)
       if (sangte.config.isResangte) return
-      instance.setState.(initialState)
+      instance.setState(initialState)
     })
   }
 }
