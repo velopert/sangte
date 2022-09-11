@@ -5,14 +5,14 @@ type Fn = () => void
 type UpdateFn<T> = (state: T) => T
 export type ActionRecord<T> = Record<string, (...params: any[]) => T | Draft<T> | void>
 type Action<T, A> = A extends ActionRecord<T> ? A : never
-type Actions<T, A> = (prevState: Draft<T> | T) => Action<T, A>
-interface SangteConfig {
+export type Actions<T, A> = (prevState: Draft<T> | T) => Action<T, A>
+export interface SangteConfig {
   key?: string
   global?: boolean
   isResangte?: boolean
 }
 
-type Getter = {
+export type Getter = {
   <T>(sangte: Sangte<T>): T
 }
 
@@ -108,20 +108,20 @@ export function sangte<T, A>(
 ): Sangte<T, A>
 export function sangte<T, A>(
   initialState: T,
-  actions?: Actions<T, A> | SangteConfig,
+  actionsOrConfig?: Actions<T, A> | SangteConfig,
   config?: SangteConfig
 ) {
-  const hasActions = typeof actions === 'function'
+  const hasActions = typeof actionsOrConfig === 'function'
   const sangte = function () {
     if (hasActions) {
-      return createSangte(initialState, actions)
+      return createSangte(initialState, actionsOrConfig)
     }
     return createSangte(initialState)
   }
   if (hasActions) {
     sangte.config = config || {}
   } else {
-    sangte.config = actions || {}
+    sangte.config = actionsOrConfig || {}
   }
 
   return sangte
