@@ -1,16 +1,16 @@
-import { sangte } from '../../lib'
+import { atom } from '../../lib'
 import { useSangte } from '..'
 import { renderHook, act } from '@testing-library/react-hooks'
 
 describe('useSangte', () => {
   it('can be called', () => {
-    const counterState = sangte(0)
+    const counterState = atom(0)
     const { result } = renderHook(() => useSangte(counterState))
     expect(result.current[0]).toBe(0)
     expect(typeof result.current[1]).toBe('function')
   })
   it('can update the state', () => {
-    const counterState = sangte(0)
+    const counterState = atom(0)
     const { result } = renderHook(() => useSangte(counterState))
 
     act(() => {

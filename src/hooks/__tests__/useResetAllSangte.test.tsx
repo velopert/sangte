@@ -1,14 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { act, renderHook } from '@testing-library/react-hooks'
 import { SangteProvider } from '../../contexts'
-import { sangte } from '../../lib'
+import { atom } from '../../lib'
 import { useResetAllSangte } from '../useResetAllSangte'
 import { useSangte } from '../useSangte'
 
 describe('useResetAllSangte', () => {
   it('resets to initialState', () => {
-    const state = sangte(0)
-    const anotherState = sangte(1)
+    const state = atom(0)
+    const anotherState = atom(1)
 
     const { result } = renderHook(() => useSangte(state))
     const { result: result2 } = renderHook(() => useSangte(anotherState))
@@ -30,7 +30,7 @@ describe('useResetAllSangte', () => {
   })
 
   it('should reset children only', () => {
-    const state = sangte(0)
+    const state = atom(0)
     function Child({ testId }: { testId: string }) {
       const [value, setState] = useSangte(state)
       const resetAll = useResetAllSangte()
@@ -79,7 +79,7 @@ describe('useResetAllSangte', () => {
   })
 
   it('should reset globally', () => {
-    const state = sangte(0)
+    const state = atom(0)
     function Child({ testId }: { testId: string }) {
       const [value, setState] = useSangte(state)
       const resetAll = useResetAllSangte()
