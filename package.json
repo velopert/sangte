@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "immer": "^9.0.15",
-    "sangte": "^0.1.18",
     "use-sync-external-store": "^1.2.0"
   },
   "devDependencies": {
