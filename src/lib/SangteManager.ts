@@ -4,6 +4,7 @@ import { SangteInitializer } from './SangteInitializer'
 export class SangteManager {
   private instanceMap = new Map<Sangte<any, any>, SangteInstance<any, any>>()
   public initializer: SangteInitializer = new SangteInitializer(this)
+  public children = new Set<SangteManager>()
 
   constructor(public isDefault: boolean = false) {}
   public get<T, A>(sangte: Sangte<T, A>): SangteInstance<T, A> {
@@ -43,5 +44,15 @@ export class SangteManager {
       const sangteInstance = parent.get(sangte)
       this.instanceMap.set(sangte, sangteInstance)
     })
+  }
+
+  /** resets all sangte registered to this SangteManager */
+  public reset(global: boolean = false) {
+    if (global) {
+      this.getRootSangteManager().reset()
+      return
+    }
+    this.instanceMap.forEach((instance) => instance.reset())
+    this.children.forEach((child) => child.reset())
   }
 }

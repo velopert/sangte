@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef } from 'react'
 import { Sangte } from '../lib/sangte'
 import { SangteInitializer } from '../lib/SangteInitializer'
 import { SangteManager } from '../lib/SangteManager'
@@ -19,12 +19,18 @@ export function SangteProvider({
   dehydratedState,
 }: SangteProviderProps) {
   const parent = useContext(SangteContext)
-  const manager = useRef(new SangteManager()).current
+  const managerRef = useRef<SangteManager | null>(null)
   const initialized = useRef(false)
 
-  if (!initialized.current) {
-    if (!parent?.isDefault) {
+  const initializeProvider = useCallback(() => {
+    if (initialized.current) return
+
+    const manager = new SangteManager()
+    managerRef.current = manager
+
+    if (parent) {
       manager.parent = parent
+      parent.children.add(manager)
     }
     manager.dehydratedState = dehydratedState
     if (inheritSangtes) {
@@ -42,9 +48,24 @@ export function SangteProvider({
       manager.initializer.initialize()
     }
     initialized.current = true
-  }
+  }, [])
 
-  return <SangteContext.Provider value={manager}>{children}</SangteContext.Provider>
+  initializeProvider()
+
+  /**
+   * Reinitialization needed because useEffect runs twice on component mount in future React (and development mode)
+   */
+  useEffect(() => {
+    initializeProvider()
+    return () => {
+      initialized.current = false
+      if (parent && managerRef.current) {
+        parent.children.delete(managerRef.current)
+      }
+    }
+  }, [initializeProvider])
+
+  return <SangteContext.Provider value={managerRef.current}>{children}</SangteContext.Provider>
 }
 
 /**
