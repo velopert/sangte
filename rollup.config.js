@@ -9,6 +9,12 @@ const bundle = (config) => ({
   external: (id) => !/^[./]/.test(id),
 })
 
+const outputConfig = {
+  preserveModules: true,
+  sourcemap: true,
+  dir: 'dist',
+}
+
 export default [
   bundle({
     plugins: [
@@ -18,14 +24,13 @@ export default [
     ],
     output: [
       {
-        file: `${name}.js`,
+        ...outputConfig,
         format: 'cjs',
-        sourcemap: true,
       },
       {
-        file: `${name}.mjs`,
+        ...outputConfig,
         format: 'es',
-        sourcemap: true,
+        entryFileNames: '[name].mjs',
       },
     ],
   }),
