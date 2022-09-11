@@ -1,4 +1,4 @@
-import { ActionRecord, Sangte, SangteInstance } from './sangte'
+import { Sangte, SangteInstance } from './sangte'
 import { SangteInitializer } from './SangteInitializer'
 
 export class SangteManager {
@@ -6,7 +6,7 @@ export class SangteManager {
   public initializer: SangteInitializer = new SangteInitializer(this)
 
   constructor(public isDefault: boolean = false) {}
-  public get<T, A extends ActionRecord<T>>(sangte: Sangte<T, A>): SangteInstance<T, A> {
+  public get<T, A>(sangte: Sangte<T, A>): SangteInstance<T, A> {
     const manager = sangte.config.global ? this.getRootSangteManager() : this
     const instance = manager.instanceMap.get(sangte)
 

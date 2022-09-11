@@ -63,6 +63,7 @@ describe('useSangteCallback', () => {
 
     const { result } = renderHook(() =>
       useSangteCallback(({ actions }) => {
+        // @ts-ignore
         actions(state)
       }, [])
     )

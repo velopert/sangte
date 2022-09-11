@@ -4,7 +4,7 @@ import { ActionRecord, Sangte } from '../lib/sangte'
 
 interface SanteCallbackParams {
   get: <T>(sangte: Sangte<T>) => T
-  set: <T, A extends ActionRecord<T>>(sangte: Sangte<T, A>, value: T) => void
+  set: <T>(sangte: Sangte<T>, value: T) => void
   actions: <T, A extends ActionRecord<T>>(sangte: Sangte<T, A>) => A
 }
 
