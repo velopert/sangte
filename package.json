@@ -2,6 +2,7 @@
   "name": "sangte",
   "description": "Sangte is a fancy React state management library.",
   "private": false,
+  "sideEffects": false,
   "version": "0.1.21",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
