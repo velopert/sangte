@@ -6,6 +6,9 @@ import Selector from './components/Selector'
 import MultiProviders from './components/MultiProviders'
 import Inherit from './components/Inherit'
 import GlobalState from './components/GlobalState'
+import MemoizedSelector from './components/MemoizedSelector'
+import Todos from './components/Todos'
+import VisibleToggle from './components/VisibleToggle'
 
 function App() {
   return (
@@ -30,6 +33,19 @@ function App() {
       </div>
       <div>
         <GlobalState />
+      </div>
+      <div>
+        <Todos />
+      </div>
+      <div>
+        <VisibleToggle>
+          <MemoizedSelector />
+        </VisibleToggle>
+      </div>
+      <div>
+        <VisibleToggle>
+          <MemoizedSelector />
+        </VisibleToggle>
       </div>
     </div>
   )
