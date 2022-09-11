@@ -1,4 +1,5 @@
-import { sangte } from '../sangte'
+import { resangte, sangte } from '../sangte'
+import { SangteManager } from '../SangteManager'
 
 describe('sangte', () => {
   it('can be created', () => {
@@ -101,5 +102,61 @@ describe('sangte', () => {
       global: true,
       key: 'counter',
     })
+  })
+})
+
+describe('resangte', () => {
+  it('can be created', () => {
+    const state = sangte([1, 2, 3, 4, 5])
+    const manager = new SangteManager()
+    manager.get(state)
+    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const store = manager.get(selectedState)
+    expect(store.getState()).toEqual([3, 4, 5])
+  })
+  it('properly updates when dependencies change', () => {
+    const state = sangte([1, 2, 3, 4, 5])
+    const manager = new SangteManager()
+    manager.get(state)
+    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const store = manager.get(selectedState)
+    const callback = jest.fn()
+    store.subscribe(callback)
+    manager.get(state).setState([1, 2, 3, 4, 5, 6, 7])
+    expect(callback).toBeCalledTimes(1)
+    expect(store.getState()).toEqual([3, 4, 5, 6, 7])
+  })
+  it('properly handles unmount & remount', () => {
+    const state = sangte([1, 2, 3, 4, 5])
+    const manager = new SangteManager()
+    manager.get(state)
+    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const store = manager.get(selectedState)
+    const callback = jest.fn()
+    let unsubscribe = store.subscribe(callback)
+    unsubscribe()
+    manager.get(state).setState([1, 2, 3, 4, 5, 6, 7])
+    expect(callback).not.toBeCalled()
+    // still gets updated because getState calls selector when unmounted
+    expect(store.getState()).toEqual([3, 4, 5, 6, 7])
+  })
+  it('warns when calling setState or reset', () => {
+    const state = sangte([1, 2, 3, 4, 5])
+    const manager = new SangteManager()
+    manager.get(state)
+    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    const store = manager.get(selectedState)
+    const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
+    store.reset()
+    store.setState([1, 2, 3])
+    expect(consoleWarnMock).toBeCalledTimes(2)
+    consoleWarnMock.mockRestore()
+  })
+  it('throws error when manager is not used', () => {
+    const state = sangte([1, 2, 3, 4, 5])
+    const selectedState = resangte((get) => get(state).filter((number) => number > 2))
+    expect(() => {
+      const store = selectedState()
+    }).toThrowError()
   })
 })
