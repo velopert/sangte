@@ -14,7 +14,7 @@ export function useSangteValue<T, S>(
 ) {
   const store = useSangteStore(sangte)
   if (!selector) {
-    const state = useSyncExternalStore(store.subscribe, store.getState)
+    const state = useSyncExternalStore(store.subscribe, store.getState, store.getState)
     return state
   }
   const state = useSyncExternalStoreWithSelector(
