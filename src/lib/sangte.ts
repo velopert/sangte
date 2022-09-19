@@ -105,6 +105,7 @@ function createSangte<T, A>(initialState: T, createActions?: Actions<T, A>): San
 }
 
 export function sangte<T>(selector: (get: Getter) => T): Sangte<T>
+export function sangte<T>(initialState: T): Sangte<T>
 export function sangte<T, A>(initialState: T, config?: SangteConfig): Sangte<T, A>
 export function sangte<T, A>(
   initialState: T,
