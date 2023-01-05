@@ -25,7 +25,7 @@ export function SangteProvider({
   const initializeProvider = useCallback(() => {
     if (initialized.current) return
 
-    const manager = new SangteManager()
+    const manager = managerRef.current ?? new SangteManager()
     managerRef.current = manager
 
     if (parent) {
